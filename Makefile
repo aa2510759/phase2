@@ -1,6 +1,11 @@
 CC = gcc
 CFLAGS = -g -O0 -std=c99
 
+parse: mini_l.lex mini_l.y
+	bison
+	flexgcc
+test:
+clean:
 miniL: miniL-lex.o miniL-parser.o
 	$(CC) $^ -o $@ -lfl
 
