@@ -8,7 +8,6 @@
 %}
 
 %union{
-
   int num_val;
   char* id_val;
 }
@@ -16,10 +15,10 @@
 %error-verbose
 %start prog_start
 %token  FUNCTION BEGIN_PARAMS END END_PARAMS 
-BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY INTEGER ARRAY ENUM
-OF IF THEN ENDIF ELSE FOR WHILE DO BEGINLOOP ENDLOOP READ WRITE
-AND OR NOT TRUE FALSE RETURN COLON COMMA SEMICOLON
- %token <id_val> IDENT
+%token BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY INTEGER ARRAY ENUM
+%token OF IF THEN ENDIF ELSE FOR WHILE DO BEGINLOOP ENDLOOP READ WRITE
+%token TRUE FALSE RETURN COLON COMMA SEMICOLON
+%token <id_val> IDENT
 %token <num_val> NUMBER
 %left L_PAREN R_PAREN 
 %left L_SQAURE_BRACKET R_SQUARE_BRACKET
@@ -28,29 +27,50 @@ AND OR NOT TRUE FALSE RETURN COLON COMMA SEMICOLON
 %left LT LTE GT GTE EQ NEQ 
 %right NOT
 %left AND
-%left OR
-%right ASSIGN
+%left OR ASSIGN
+
 
 %%
 prog_start: functions {printf("prog_start -> functions\n");}
                     ;
 
 functions:  /*empty*/ {printf("functions -> epsilon\n");}
-                    | function functions {printf("functions -> function functions\n");}
+            | function functions {printf("functions -> function functions\n");}
 
-// declarations handles the semicolon
+function:   FUNCTION ident SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statement SEMICOLON statements END_BODY 
+ {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statement SEMICOLON statements END_BODY\n")}
 
-function:   FUNCTION ident SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY
-            {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n")}
+identifiers: /*empty*/ {printf("identifiers -> epsilon\n");} 
+            |  COMMA IDENT identifiers {printf("identifiers -> COMMA IDENT identifiers\n");}
 
-declarations: {"printf("declarations -> epsilon\n");}
-                     | declaration declarations {printf ("declarations -> declaration declarations\n");}
-                     
+declarations: /*empty*/ {printf("declarations -> epsilon\n");}
+            | declaration SEMICOLON declarations {printf ("declarations -> declaration SEMICOLON declarations\n");}
 
-statements:
-          | statement SEMICOLON statements printf();
+declaration:   IDENT identifiers COLON ENUM L_PAREN IDENT identifiers R_PAREN {printf("declaration -> IDENT identifiers COLON ENUM L_PAREN IDENT identifiers R_PAREN\n");}  
+            |  IDENT identifiers COLON INTEGER {printf ("declaration -> IDENT identifiers COLON INTEGER\n");}
+            |  IDENT identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {printf("declaration ->\n IDENT identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER");}
 
-statement:
+statements: /*empty*/ printf("statements -> epsilon\n");
+            | statement SEMICOLON statements 
+
+statement: 
+
+bool_expr:
+
+relation_and_expr:
+
+relation_expr:
+
+comp:
+
+expression: 
+
+multiplicative_expr:
+
+term: 
+
+var: IDENT
+            | IDENT L_SQAURE_BRACKET expression R_SQUARE_BRACKET
 
 %%
 int main(int argc, char **argv) {
