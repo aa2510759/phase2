@@ -50,7 +50,7 @@ declarations: /*empty*/ {printf("declarations -> epsilon\n");}
 
 declaration:   identifiers COLON ENUM L_PAREN identifiers R_PAREN {printf("declaration -> identifiers COLON ENUM L_PAREN identifiers R_PAREN\n");}  
             |  identifiers COLON INTEGER {printf ("declaration -> identifiers COLON INTEGER\n");}
-            |  identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {printf("declaration ->\n identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER");}
+            |  identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {printf("declaration -> identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
 
 states: /*empty*/ {printf("states -> epsilon\n");}
             | statement SEMICOLON states {printf ("states -> statement SEMICOLON states\n");}
