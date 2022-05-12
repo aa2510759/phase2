@@ -53,7 +53,7 @@ declaration:   identifiers COLON ENUM L_PAREN identifiers R_PAREN {printf("decla
             |  identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {printf("declaration -> identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
 
 states: /*empty*/ {printf("states -> epsilon\n");}
-            | statement SEMICOLON states {printf ("states -> statement SEMICOLON states\n");}
+            | statements {printf ("states -> statements\n");}
 
 statements: statement SEMICOLON states {printf("statements -> statement SEMICOLON states\n");}
 
@@ -68,10 +68,10 @@ statement: var ASSIGN expression {printf("statement -> var ASSIGN expression\n")
             | RETURN expression {printf("statement ->expression\n");}
 
 or_expr: /*empty*/ {printf("or_expr -> epsilon\n");}
-            | OR relation_and_expr {printf("or_expr -> OR relation_and_expr\n");}
+            | OR relation_and_expr or_expr {printf("or_expr -> OR relation_and_expr or_expr\n");}
 
 and_expr: /*empty*/ {printf("and_expr -> epsilon\n");}
-            | AND relation_expr {printf("and_expr -> OR relation_expr\n");}
+            | AND relation_expr and_expr {printf("and_expr -> OR relation_expr and_expr\n");}
             
 bool_expr: relation_and_expr or_expr {printf("bool_expr -> relation_and_expr or_expr\n");}
 
@@ -98,8 +98,8 @@ expressions: /*empty*/ {printf("expressions -> epsilon\n");}
             | expression COMMA expressions{printf("expressions -> expression COMMA expressions\n");}
 
 expr: /*empty*/ {printf("expr -> epsilon\n");}
-            | ADD multiplicative_expr {printf("expr -> ADD multiplicative_expr\n");}
-            | SUB multiplicative_expr {printf("expr -> SUB multiplicative_expr\n");}
+            | ADD multiplicative_expr expr{printf("expr -> ADD multiplicative_expr expr\n");}
+            | SUB multiplicative_expr {printf("expr -> SUB multiplicative_expr expr\n");}
 
 expression: multiplicative_expr expr {printf("expression -> multiplicative_expr expr\n");}
 
