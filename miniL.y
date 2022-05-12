@@ -32,18 +32,21 @@
 
 
 %%
+
+ident: IDENT {printf("ident -> IDENT %s\n", yylval.id_val);}
+
 prog_start: functions {printf("prog_start -> functions\n");}
                     ;
 
 functions:  /*empty*/ {printf("functions -> epsilon\n");}
             | function functions {printf("functions -> function functions\n");}
 
-function:   FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n");}
+function:   FUNCTION ident SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY {printf("function -> FUNCTION ident SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n");}
 
 comma: /*empty*/ {printf("comma -> epsilon\n");} 
             |  COMMA identifiers {printf("idents -> COMMA identifiers\n");}
 
-identifiers: IDENT comma {printf("identifiers -> IDENT comma\n");}
+identifiers: ident comma {printf("identifiers -> ident comma\n");}
 
 declarations: /*empty*/ {printf("declarations -> epsilon\n");}
             | declaration SEMICOLON declarations {printf ("declarations -> declaration SEMICOLON declarations\n");}
@@ -116,13 +119,13 @@ term: var {printf("term -> var\n");}
             | SUB NUMBER {printf("term -> SUB NUMBER\n");}
             | L_PAREN expression R_PAREN {printf("term -> L_PAREN expression R_PAREN\n");}
             | SUB L_PAREN expression R_PAREN {printf("term -> SUB L_PAREN expression R_PAREN\n");}
-            | IDENT L_PAREN expressions R_PAREN {printf("term -> L_PAREN expressions R_PAREN\n");}
+            | ident L_PAREN expressions R_PAREN {printf("term -> L_PAREN expressions R_PAREN\n");}
 
 vars: /*empty*/ {printf("vars -> epsilon\n");}
             | COMMA var vars {printf("vars -> COMMA var vars\n");}
 
-var: IDENT {printf("var -> IDENT\n");}
-            | IDENT L_SQAURE_BRACKET expression R_SQUARE_BRACKET {printf("var -> IDENT L_SQAURE_BRACKET expression R_SQUARE_BRACKET\n");}
+var: ident {printf("var -> ident\n");}
+            | ident L_SQAURE_BRACKET expression R_SQUARE_BRACKET {printf("var -> ident L_SQAURE_BRACKET expression R_SQUARE_BRACKET\n");}
 
 %%
 int main(int argc, char **argv) {

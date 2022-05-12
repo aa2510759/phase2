@@ -68,7 +68,7 @@ DIGIT [0-9]
    /* Identifiers and Numbers */
 
 
-[a-zA-Z]([a-zA-Z0-9_]*[a-zA-Z0-9])*  {currPos += yyleng;  yylval.id_val; return IDENT;}
+[a-zA-Z]([a-zA-Z0-9_]*[a-zA-Z0-9])*  {currPos += yyleng;  yylval.id_val = strdup(yytext); return IDENT;}
 
 
 (\.{DIGIT}+)|({DIGIT}+(\.{DIGIT}*)?([eE][+-]?[0-9]+)?) {currPos += yyleng; yylval.num_val = atof(yytext); return NUMBER;}
