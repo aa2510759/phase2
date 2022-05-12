@@ -1,11 +1,10 @@
 CC = gcc
 CFLAGS = -g -O0 -std=c99
 
-parse: mini_l.lex mini_l.y
-	bison
-	flexgcc
-test:
-clean:
+parse: miniL.lex miniL.y
+	bison -v -d --file-prefix=y miniL.y
+	flex miniL.lex
+	gcc -o miniL y.tab.c lex.yy.c -lfl
 miniL: miniL-lex.o miniL-parser.o
 	$(CC) $^ -o $@ -lfl
 
@@ -20,3 +19,5 @@ miniL-parser.c: miniL.y
 
 clean:
 	rm -f *.o miniL-lex.c miniL-parser.c miniL-parser.h *.output *.dot miniL
+	rm -f lex.yyls
+	.c y.tab.* y.output *.o miniL

@@ -17,7 +17,7 @@
 %token  FUNCTION BEGIN_PARAMS END END_PARAMS 
 %token BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY INTEGER ARRAY ENUM
 %token OF IF THEN ENDIF ELSE FOR WHILE DO BEGINLOOP ENDLOOP READ WRITE
-%token TRUE FALSE RETURN COLON COMMA SEMICOLON
+%token TRUE FALSE RETURN COLON COMMA SEMICOLON CONTINUE
 %token <id_val> IDENT
 %token <num_val> NUMBER
 %left L_PAREN R_PAREN 
@@ -38,7 +38,7 @@ prog_start: functions {printf("prog_start -> functions\n");}
 functions:  /*empty*/ {printf("functions -> epsilon\n");}
             | function functions {printf("functions -> function functions\n");}
 
-function:   FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n")}
+function:   FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n");}
 
 idents: /*empty*/ {printf("idents -> epsilon\n");} 
             |  COMMA IDENT idents {printf("idents -> COMMA IDENT idents\n");}
@@ -53,15 +53,15 @@ declaration:   identifiers COLON ENUM L_PAREN identifiers R_PAREN {printf("decla
             |  identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {printf("declaration ->\n identifiers COLON ARRAY L_SQAURE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER");}
 
 states: /*empty*/ {printf("states -> epsilon\n");}
-            | statement SEMICOLON state {printf ("states -> statement SEMICOLON states\n");}
+            | statement SEMICOLON states {printf ("states -> statement SEMICOLON states\n");}
 
 statements: statement SEMICOLON states {printf("statements -> statement SEMICOLON states\n");}
 
 statement: var ASSIGN expression {printf("statement -> var ASSIGN expression\n");}
             | IF bool_expr THEN statements ENDIF {printf("statement -> IF bool_expr THEN statements ENDIF\n");}
             | IF bool_expr THEN statements ELSE statements ENDIF {printf("statement -> IF bool_expr THEN statements ELSE statements ENDIF\n");}
-            | WHILE bool_expr BEGINLOOP statements END_LOOP {printf("statement -> WHILE bool_expr BEGINLOOP statements END_LOOP\n");}
-            | DO BEGINLOOP statements END_LOOP WHILE bool_expr {printf("statement -> DO BEGINLOOP statements END_LOOP WHILE bool_expr\n");}
+            | WHILE bool_expr BEGINLOOP statements ENDLOOP {printf("statement -> WHILE bool_expr BEGINLOOP statements ENDLOOP\n");}
+            | DO BEGINLOOP statements ENDLOOP WHILE bool_expr {printf("statement -> DO BEGINLOOP statements ENDLOOP WHILE bool_expr\n");}
             | READ var vars {printf("statement -> READ var vars\n");}
             | WRITE var vars {printf("statement -> WRITE var vars\n");}
             | CONTINUE {printf("statement -> CONTINUE\n");}
@@ -84,7 +84,7 @@ relation_expr: expression comp expression {printf("relation_expr -> expression c
             | TRUE {printf("relation_expr -> TRUE\n");}
             | NOT TRUE {printf("relation_expr -> NOT TRUE\n");}
             | FALSE {printf("relation_expr -> FALSE\n");}
-            | NOT FLASE {printf("relation_expr -> NOT FALSE\n");}
+            | NOT FALSE {printf("relation_expr -> NOT FALSE\n");}
             | L_PAREN bool_expr R_PAREN {printf("relation_expr -> L_PAREN bool_expr R_PAREN\n");}
             | NOT L_PAREN bool_expr R_PAREN {printf("relation_expr -> NOT L_PAREN bool_expr R_PAREN\n");}
 
@@ -96,8 +96,8 @@ comp: EQ {printf("comp -> EQ\n");}
             | GTE {printf("comp -> GTE\n");}
 
 expressions: /*empty*/ {printf("expressions -> epsilon\n");}
-            | expression {printf ("expressions -> expression\n")}
-            | expression COMMA {printf(expressions -> expression COMMA);}
+            | expression expressions{printf ("expressions -> expression expressions\n");}
+            | expression COMMA expressions{printf("expressions -> expression COMMA expressions\n");}
 
 expr: /*empty*/ {printf("expr -> epsilon\n");}
             | ADD multiplicative_expr {printf("expr -> ADD multiplicative_expr\n");}
@@ -111,9 +111,8 @@ mult_expr: /*empty*/ {printf("mult_expr -> epsilon\n");}
             | DIV term {printf("mult_expr -> DIV term\n");}
             | MOD term {printf("mult_expr -> MOD term\n");}
 
-multiplicative_expr: term {printf(multiplicative_expr -> term);}
-            | term mult_expr {printf("multiplicative_expr -> term mult_expr\n")}
-
+multiplicative_expr: term {printf("multiplicative_expr -> term\n");}
+            | term mult_expr {printf("multiplicative_expr -> term mult_expr\n");}
 
 term: var {printf("term -> var\n");}
             | SUB var {printf("term -> SUB var\n");}

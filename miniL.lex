@@ -25,7 +25,7 @@ DIGIT [0-9]
 "beginbody" {currPos += yyleng; return BEGIN_BODY;}
 "endbody" {currPos += yyleng; return END_BODY;}
 "integer" {currPos += yyleng; return INTEGER;}
-"array" {currPos += yyleng;return ARRAY;}
+"array" {currPos += yyleng; return ARRAY;}
 "enum" {currPos += yyleng; return ENUM;}
 "of" {currPos += yyleng; return OF;}
 "if" {currPos += yyleng; return IF;}
@@ -68,7 +68,7 @@ DIGIT [0-9]
    /* Identifiers and Numbers */
 
 
-[a-zA-Z]([a-zA-Z0-9_]*[a-zA-Z0-9])*  {currPos += yyleng;  yylval.id_val = atof(yytext); return IDENT;}
+[a-zA-Z]([a-zA-Z0-9_]*[a-zA-Z0-9])*  {currPos += yyleng;  yylval.id_val; return IDENT;}
 
 
 (\.{DIGIT}+)|({DIGIT}+(\.{DIGIT}*)?([eE][+-]?[0-9]+)?) {currPos += yyleng; yylval.num_val = atof(yytext); return NUMBER;}
@@ -80,7 +80,7 @@ DIGIT [0-9]
 "," {currPos += yyleng; return COMMA;} 
 "(" {currPos += yyleng; return L_PAREN;}
 ")" {currPos += yyleng; return R_PAREN;}
-"[" {currPos += yyleng; return L_SQUARE_BRACKET;}
+"[" {currPos += yyleng; return L_SQAURE_BRACKET;}
 "]" {currPos += yyleng; return R_SQUARE_BRACKET;}
 ":=" {currPos += yyleng; return ASSIGN;}
 
