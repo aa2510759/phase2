@@ -73,11 +73,9 @@ or_expr: /*empty*/ {printf("or_expr -> epsilon\n");}
 and_expr: /*empty*/ {printf("and_expr -> epsilon\n");}
             | AND relation_expr {printf("and_expr -> OR relation_expr\n");}
             
-bool_expr: relation_and_expr {printf("bool_expr -> relation_and_expr\n");}
-            | relation_and_expr or_expr {printf("bool_expr -> relation_and_expr or_expr\n");}
+bool_expr: relation_and_expr or_expr {printf("bool_expr -> relation_and_expr or_expr\n");}
 
-relation_and_expr: relation_expr {printf("relation_and_expr -> relation_expr\n");}
-            | relation_expr and_expr {printf("relation_and_expr -> relation_expr and_expr\n");}
+relation_and_expr: relation_expr and_expr {printf("relation_and_expr -> relation_expr and_expr\n");}
 
 relation_expr: expression comp expression {printf("relation_expr -> expression comp expression\n");}
             | NOT expression comp expression {printf("relation_expr -> NOT expression comp expression");}
@@ -103,16 +101,14 @@ expr: /*empty*/ {printf("expr -> epsilon\n");}
             | ADD multiplicative_expr {printf("expr -> ADD multiplicative_expr\n");}
             | SUB multiplicative_expr {printf("expr -> SUB multiplicative_expr\n");}
 
-expression: multiplicative_expr {printf("expression -> multiplicative_expr\n");}
-            | multiplicative_expr expr {printf("expression -> multiplicative_expr expr\n");}
+expression: multiplicative_expr expr {printf("expression -> multiplicative_expr expr\n");}
 
 mult_expr: /*empty*/ {printf("mult_expr -> epsilon\n");}
             | MULT term {printf("mult_expr -> MULT term\n");}
             | DIV term {printf("mult_expr -> DIV term\n");}
             | MOD term {printf("mult_expr -> MOD term\n");}
 
-multiplicative_expr: term {printf("multiplicative_expr -> term\n");}
-            | term mult_expr {printf("multiplicative_expr -> term mult_expr\n");}
+multiplicative_expr: term mult_expr {printf("multiplicative_expr -> term mult_expr\n");}
 
 term: var {printf("term -> var\n");}
             | SUB var {printf("term -> SUB var\n");}
