@@ -27,7 +27,8 @@
 %left LT LTE GT GTE EQ NEQ 
 %right NOT
 %left AND
-%left OR ASSIGN
+%left OR 
+%right ASSIGN
 
 
 %%
@@ -37,11 +38,10 @@ prog_start: functions {printf("prog_start -> functions\n");}
 functions:  /*empty*/ {printf("functions -> epsilon\n");}
             | function functions {printf("functions -> function functions\n");}
 
-function:   FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY 
- {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n")}
+function:   FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n")}
 
 idents: /*empty*/ {printf("idents -> epsilon\n");} 
-            |  COMMA IDENT identifiers {printf("idents -> COMMA IDENT idents\n");}
+            |  COMMA IDENT idents {printf("idents -> COMMA IDENT idents\n");}
 
 identifiers: IDENT idents {printf("identifiers -> IDENT idents\n");}
 
@@ -73,9 +73,8 @@ or_expr: /*empty*/ {printf("or_expr -> epsilon\n");}
 and_expr: /*empty*/ {printf("and_expr -> epsilon\n");}
             | AND relation_expr {printf("and_expr -> OR relation_expr\n");}
             
-
 bool_expr: relation_and_expr {printf("bool_expr -> relation_and_expr\n");}
-            | relation_and_expr or_expr {printf("relation_and_expr or_expr\n");}
+            | relation_and_expr or_expr {printf("bool_expr -> relation_and_expr or_expr\n");}
 
 relation_and_expr: relation_expr {printf("relation_and_expr -> relation_expr\n");}
             | relation_expr and_expr {printf("relation_and_expr -> relation_expr and_expr\n");}
