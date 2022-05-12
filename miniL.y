@@ -40,10 +40,10 @@ functions:  /*empty*/ {printf("functions -> epsilon\n");}
 
 function:   FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY\n");}
 
-idents: /*empty*/ {printf("idents -> epsilon\n");} 
-            |  COMMA IDENT idents {printf("idents -> COMMA IDENT idents\n");}
+comma: /*empty*/ {printf("comma -> epsilon\n");} 
+            |  COMMA identifiers {printf("idents -> COMMA identifiers\n");}
 
-identifiers: IDENT idents {printf("identifiers -> IDENT idents\n");}
+identifiers: IDENT comma {printf("identifiers -> IDENT comma\n");}
 
 declarations: /*empty*/ {printf("declarations -> epsilon\n");}
             | declaration SEMICOLON declarations {printf ("declarations -> declaration SEMICOLON declarations\n");}
@@ -94,7 +94,7 @@ comp: EQ {printf("comp -> EQ\n");}
             | GTE {printf("comp -> GTE\n");}
 
 expressions: /*empty*/ {printf("expressions -> epsilon\n");}
-            | expression expressions{printf ("expressions -> expression expressions\n");}
+            | expression {printf ("expressions -> expression\n");}
             | expression COMMA expressions{printf("expressions -> expression COMMA expressions\n");}
 
 expr: /*empty*/ {printf("expr -> epsilon\n");}
