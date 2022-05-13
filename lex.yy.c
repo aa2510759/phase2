@@ -1132,17 +1132,17 @@ YY_RULE_SETUP
 case 54:
 YY_RULE_SETUP
 #line 96 "miniL.lex"
-{printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); exit(0);}
+{printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext);}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 #line 98 "miniL.lex"
-{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); exit(0);}
+{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext);}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
 #line 100 "miniL.lex"
-{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);} ;
+{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext);} 
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
